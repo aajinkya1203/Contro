@@ -17,11 +17,12 @@ class ActivitySummary extends Component {
             <ul id="featuresInContro">
                 {
                     acts && acts.map(act=>{
+                        console.log(`./${ act.path }`);
                         return(
                             <li key={act.id}>
-                                <Link to={ require(`./${act.path}`) }>
+                                <Link to={ `./home/${ act.path }` }>
                                     <h4 className="front">{ act.title }</h4>
-                                    <img src={ require(`../../images/additional/${ act.src }`) } className="front"/>
+                                    <img src={ require(`../../images/additional/${ act.src }`) } className="front" alt="covers"/>
                                     <p className="back">
                                         { act.content }
                                     </p>

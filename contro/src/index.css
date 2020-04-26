@@ -222,6 +222,8 @@ footer .copyright{
   height: 80px;
   padding: 7px;
   background-color: #df2935;
+  overflow: hidden;
+  position: relative;
 }
 .RootNavbar a{
   color: white;
@@ -272,6 +274,15 @@ footer .copyright{
   grid-auto-rows: minmax(8.3333vh,auto);
   color: white;
 }
+.homeBG{
+  position: fixed;
+  top: 95px;
+  right: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0.8;
+  z-index: -5;
+}
 
 .peep{
   grid-column: 1 / 3 !important;
@@ -297,6 +308,7 @@ footer .copyright{
   padding: 20px;
   justify-self: start;
   align-self: start;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 #tabs ul{
@@ -391,4 +403,90 @@ footer .copyright{
 }
 #tabs ul li:nth-of-type(3) h4{
   color: #fff;
+}
+
+.navbarBG{
+  position: absolute;
+  top: -80px;
+  left: -20px;
+  opacity: 0.6;
+  height: 300px;
+  transform: rotate(60deg);
+  width: auto;
+}
+
+/* styling todo now */
+.todoContainer{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  grid-auto-rows:30px;
+  padding:10px;
+  margin:30px auto;
+  margin-bottom: 50px;
+}
+.todoContainer h4{
+  grid-column:1 / 4;
+  grid-row:1 / 2;
+}
+.todoContainer ul{
+  grid-column:4 / 9;
+  grid-row:1 / 2
+}
+.todoActs li{
+  display: inline-block;
+  padding: 15px 30px;
+}
+.todoActs li a{
+  color: white;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+/*  view todolist  */
+.todoViewContainer{
+  margin-top: 20px;
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  grid-auto-rows:minmax(40px,auto);
+}
+.todoViewContainer h5{
+  grid-column:1 / 6;
+  grid-row:1 / 2;
+}
+.todoViewContainer .section{
+  grid-column:1 / 7;
+}
+.todoViewContainer .section .card{
+  background-color:transparent;
+  border: 2px solid #45a29e;
+  border-radius: 16px 0 16px 0;
+}
+.todoViewContainer .section .card .card-action{
+  border-radius: 0 0 16px 0;
+  background-color: #d0e3c4;
+}
+.todoViewContainer .section .card .card-content{
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-template-rows: repeat(2,1fr);
+}
+.todoViewContainer .section .card .card-content img{
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  width: 100%;
+  height: auto;
+}
+.todoViewContainer .section .card .card-content H4{
+  grid-column: 2 / 6;
+  grid-row: 1 / 3;
+  align-self: center;
+  justify-self: start;
+  text-transform: uppercase;
+  width: 100%;
+  height: auto;
+  font-weight:bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.card{
+  cursor: pointer;
 }
