@@ -7,9 +7,9 @@ import CreateTodo from './todoActs/CreateTodo';
 class Todos extends Component {
     state = {
         todos:[
-            {id:1,task:'buy milk', status:'false'},
-            {id:3,task:'go to gym', status:'false'},
-            {id:5,task:'cook', status:'false'},
+            {id:1,task:'buy milk', status:'false', createdAt:null, completedAt:null},
+            {id:3,task:'go to gym', status:'false', createdAt:null, completedAt:null},
+            {id:5,task:'cook', status:'false', createdAt:null, completedAt:null},
         ],
         doneTodo:[
             {id:2,task:'egg hunt', status:'true'}

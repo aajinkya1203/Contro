@@ -7,6 +7,7 @@ import dashboard from './component/dashboard/dashboard';
 import Todos from './component/activities/Todos';
 import Reminders from './component/activities/Reminders';
 
+
 class App extends Component {
   render(){
     return (

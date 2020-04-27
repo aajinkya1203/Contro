@@ -15,7 +15,9 @@ class signup extends Component {
         })
     }
     handleSubmit=(e)=>{
-        console.log("submit!")
+        e.preventDefault();
+        console.log("submit!");
+        console.log(this.state);
     }
     render() {
         return (
@@ -26,20 +28,20 @@ class signup extends Component {
                     <h4 className=" text-darken-3">Sign Up</h4>
                     <div className="input-field">
                         <label htmlFor="fname">First Name:</label>
-                        <input id="fname" type="text" onChange={this.handleChange} required/>
+                        <input id="fname" className="white-text" type="text" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="lname">Last Name:</label>
-                        <input id="lname" type="text" onChange={this.handleChange} required/>
+                        <input id="lname" className="white-text" type="text" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">Email:</label>
-                        <input id="email" type="email" onChange={this.handleChange} required/>
+                        <input id="email" className="white-text" type="email" onChange={this.handleChange} required/>
                     </div>
 
                     <div className="input-field">
                         <label htmlFor="password">Password:</label>
-                        <input id="password" type="password" onChange={this.handleChange} required/>
+                        <input id="password" className="white-text" type="password" onChange={this.handleChange} required/>
                     </div>
 
                     <div className="input-field">
