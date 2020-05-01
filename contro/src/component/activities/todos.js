@@ -3,25 +3,11 @@ import Navbar from '../auth/Navbar';
 import { Link } from 'react-router-dom';
 import ViewTodo from './todoActs/ViewTodo';
 import CreateTodo from './todoActs/CreateTodo';
+import { connect } from 'react-redux'
 
 class Todos extends Component {
     state = {
-        todos:[
-            {id:1,task:'buy milk', status:'false', createdAt:null, completedAt:null},
-            {id:3,task:'go to gym', status:'false', createdAt:null, completedAt:null},
-            {id:5,task:'cook', status:'false', createdAt:null, completedAt:null},
-        ],
-        doneTodo:[
-            {id:2,task:'egg hunt', status:'true'}
-        ],
         decide:'create',
-    }
-    addTodo=(todo)=>{
-        todo.id=Math.random();
-        let tempTodo = [...this.state.todos,todo];
-        this.setState({
-            todos:tempTodo
-        })
     }
     handleDecide=(act)=>{
         if(act==="create"){
@@ -34,23 +20,23 @@ class Todos extends Component {
             })
         }
     }
-    todoComplete=(todoID)=>{
-        console.log("done")
-        let tempTodo = this.state.todos.filter(todo=>{
-            return todo.id!==todoID;
-        });
-        let todoToDelete = this.state.todos.find(todo=>{
-            return todo.id===todoID;
-        });
-        let compTodo = [...this.state.doneTodo,todoToDelete];
-        this.setState({
-            todos:tempTodo,
-            doneTodo:compTodo
-        })
-
-    }
+    // todoComplete=(todoID)=>{
+    //     const { todos, doneTodo } = this.props;
+    //     let tempTodo = todos.filter(todo=>{
+    //         return todo.id!==todoID;
+    //     });
+    //     let todoToDelete = todos.find(todo=>{
+    //         return todo.id===todoID;
+    //     });
+    //     // let compTodo = [...doneTodo,todoToDelete];
+    //     this.setState({
+    //         todos:tempTodo,
+    //         doneTodo:compTodo
+    //     })
+    // }
 
     render() {
+        const { todos, doneTodo } = this.props;
         if(this.state.decide==="create"){
             return (
                 <div>
@@ -63,7 +49,7 @@ class Todos extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <CreateTodo todos={this.state} addTodo={ this.addTodo } todoComplete={ this.todoComplete }/>
+                    <CreateTodo todos={todos}/>
                 </div>
             )
         }else{
@@ -78,7 +64,7 @@ class Todos extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <ViewTodo doneTodo={this.state}/>
+                    <ViewTodo doneTodo={doneTodo}/>
                 </div>
             )
         }
@@ -86,4 +72,11 @@ class Todos extends Component {
     }
 }
 
-export default Todos
+const mapStateToProps=(state)=>{
+    return{
+        todos:state.todo.todos,
+        doneTodo:state.todo.doneTodo
+    }
+}
+
+export default connect(mapStateToProps)(Todos)

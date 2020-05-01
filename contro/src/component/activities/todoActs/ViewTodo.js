@@ -2,7 +2,7 @@ import React from 'react'
 import todoCheck from '../../../images/additional/todoCheck.png';
 
 const ViewTodo=(props)=> {
-    const { doneTodo } = props.doneTodo;
+    const { doneTodo } = props;
     const todoList = doneTodo.length ? (
         doneTodo.map(todo=>{
             return(

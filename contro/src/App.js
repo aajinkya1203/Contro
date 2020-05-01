@@ -6,6 +6,8 @@ import signup from './component/auth/signup';
 import dashboard from './component/dashboard/dashboard';
 import Todos from './component/activities/Todos';
 import Reminders from './component/activities/Reminders';
+import Notes from './component/activities/Notes';
+import NoteDetail from './component/activities/NotesActs/NoteDetail';
 
 
 class App extends Component {
@@ -22,6 +24,8 @@ class App extends Component {
           <Route path='/profile' component={ dashboard } />
           <Route path='/home/Todos' component={ Todos } />
           <Route path='/home/Reminders' component={ Reminders } />
+          <Route path='/home/Notes/:id' component={ NoteDetail } />
+          <Route path='/home/Notes' component={ Notes } />
         </Switch>
         </div>
       </BrowserRouter>

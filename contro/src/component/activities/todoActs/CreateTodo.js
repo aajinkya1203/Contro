@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ActiveTodo from './ActiveTodo';
+import { connect } from 'react-redux';
+import { todoActions } from '../../../actions/todoActions'
 
 class CreateTodo extends Component {
     state={
@@ -14,7 +16,7 @@ class CreateTodo extends Component {
     }
     handleSubmit=(e)=>{
         e.preventDefault();
-        this.props.addTodo(this.state);
+        this.props.createTodo(this.state);
         this.setState({
             task:'',
         })
@@ -36,4 +38,10 @@ class CreateTodo extends Component {
     }
 }
 
-export default CreateTodo
+const mapDispatchToProps =(dispatch)=>{
+    return{
+        createTodo:(todo)=>dispatch(todoActions(todo))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(CreateTodo)

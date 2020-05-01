@@ -2,11 +2,11 @@ import React from 'react'
 import todoCheck from '../../../images/additional/todoCheck.png';
 
 const ActiveTodo=(props)=> {
-    const { todos,todoComplete } = props;
-    const todoList = todos.todos.length ? (
-        todos.todos.map(todo=>{
+    const { todos } = props;
+    const todoList = todos.length ? (
+        todos.map(todo=>{
             return(
-                <div className="card center" key={ todo.id } onClick={ ()=>{todoComplete(todo.id)}}>
+                <div className="card center" key={ todo.id } onClick={()=>{alert("hell")}}>
                     <div className="card-content">
                         <img src={ todoCheck } alt="todoCheck" className="todoCheck"/>
                         <h4 className="card-title">Task: { todo.task }</h4>

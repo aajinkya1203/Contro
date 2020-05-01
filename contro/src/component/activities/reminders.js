@@ -5,18 +5,9 @@ import Navbar from '../auth/Navbar';
 import { Link } from 'react-router-dom';
 import CreateReminder from './reminderActs/CreateReminder';
 import ViewReminder from './reminderActs/ViewReminder';
-
 class Reminders extends Component {
     state={
-        reminders:[
-            {id:1,task:'buy milk', status:'false', remindAt:"08:30"},
-            {id:4,task:'do course', status:'false', remindAt:"22:45"},
-            {id:3,task:'go to gym', status:'false', remindAt:"10:45"},
-            {id:5,task:'cook', status:'false', remindAt:"21:00"},
-        ],
-        doneReminders:[
-            {id:2,task:'grab lunch', status:'true',remindAt:"15:00"},
-        ]
+        decide:"create"
     }
     componentDidMount(){
         setInterval(this.remindMe,2000);
@@ -63,6 +54,9 @@ class Reminders extends Component {
         return reminderToBeCompleted.task;
     }
     remindMe=()=>{
+        if(this.state.reminders.length===0){
+            return null;
+        }
         let a = new Date();
         a = ("0"+a.getHours()).slice(-2)+":"+("0"+a.getMinutes()).slice(-2);
         console.log(a);
@@ -73,22 +67,39 @@ class Reminders extends Component {
     }
 
     render() {
-        
-        return (
-            <div>
-                <Navbar />
-                <div className="container todoContainer">
-                    <h4 className="white-text text-darken-3">REMINDERS     | </h4>
-                    <ul className="todoActs">
-                        <li><Link onClick={()=>{this.handleDecide('create')}}>Upcoming Reminders</Link></li>
-                        <li><Link onClick={()=>{this.handleDecide('view')}}>Completed Reminders</Link></li>
-                    </ul>
+        if(this.state.decide==="create"){
+            return (
+                <div>
+                    <Navbar />
+                    <div className="container todoContainer">
+                        <h4 className="white-text text-darken-3">REMINDERS     | </h4>
+                        <ul className="todoActs">
+                            <li><Link onClick={()=>{this.handleDecide('create')}}>Upcoming Reminders</Link></li>
+                            <li><Link onClick={()=>{this.handleDecide('view')}}>Completed Reminders</Link></li>
+                        </ul>
+                    </div>
+                    <hr className="seperation" />
+                    <CreateReminder compare={this.compare} reminders={this.state} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
                 </div>
-                <hr className="seperation" />
-                <ViewReminder compare={this.compare} doneReminders={this.state}/>
-                <CreateReminder compare={this.compare} reminders={this.state} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
-            </div>
-)
+            )
+        }else{
+            return (
+                <div>
+                    <Navbar />
+                    <div className="container todoContainer">
+                        <h4 className="white-text text-darken-3">REMINDERS     | </h4>
+                        <ul className="todoActs">
+                            <li><Link onClick={()=>{this.handleDecide('create')}}>Upcoming Reminders</Link></li>
+                            <li><Link onClick={()=>{this.handleDecide('view')}}>Completed Reminders</Link></li>
+                        </ul>
+                    </div>
+                    <hr className="seperation" />
+                    <ViewReminder compare={this.compare} doneReminders={this.state}/>
+                </div>
+            )
+        }
+        
+        
     }
 }
 // var foo = new Reminders;
