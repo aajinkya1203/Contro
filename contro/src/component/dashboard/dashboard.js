@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import Navbar from '../auth/Navbar';
 import peep from '../../images/additional/remasteredPeep.svg';
 import ActivitySummary from '../activities/ActivitySummary';
-import homeBG from '../../images/additional/homeBG.svg'
+import homeBG from '../../images/additional/homeBG.svg';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class dashboard extends Component {
     render() {
+        const { auth } = this.props;
+        console.log(auth)
+        if(!auth.uid) return <Redirect to='/'/>
         return (
             <div>
                 <Navbar />
@@ -25,4 +30,10 @@ class dashboard extends Component {
     }
 }
 
-export default dashboard
+const mapStateToProps=(state)=>{
+    return{
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(dashboard)

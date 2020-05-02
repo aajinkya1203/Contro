@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import ActiveReminder from './ActiveReminder';
+import { reminderActions } from '../../../actions/reminderActions';
+import { connect } from 'react-redux';
+import { withFirebase } from 'react-redux-firebase';
 
-class CreateTodo extends Component {
+
+class CreateReminder extends Component {
     state={
         id:null,
         task:'',
@@ -15,7 +19,7 @@ class CreateTodo extends Component {
     }
     handleSubmit=(e)=>{
         e.preventDefault();
-        this.props.addReminder(this.state);
+        this.props.reminderActions(this.state,this.props.firebase);
         this.setState({
             task:'',
             remindAt:''
@@ -40,5 +44,10 @@ class CreateTodo extends Component {
         )
     }
 }
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        reminderActions:(reminder,fb)=>dispatch(reminderActions(reminder,fb))
+    }
+}
 
-export default CreateTodo
+export default withFirebase(connect(null,mapDispatchToProps)(CreateReminder))

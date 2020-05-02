@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import CreateNote from './NotesActs/CreateNote'
 import ViewNotes from './NotesActs/ViewNotes'
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 
 class Notes extends Component {
     state ={
@@ -68,8 +70,23 @@ class Notes extends Component {
 const mapStateToProps = (state)=>{
     console.log(state);
     return{
-        notes:state.notes.notes
+        notes:state.firestore.ordered.notes,
+        auth:state.firebase.auth
     }
 }
 
-export default connect(mapStateToProps)(Notes)
+
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect((props)=>[
+        {
+            collection:'allNotes',
+            doc:`${props.auth.uid}`,
+            subcollections:[
+                {collection:'notes'}
+            ],
+            storeAs:'notes'
+        }
+    ])
+    )
+    (Notes)

@@ -11,7 +11,13 @@ const notesReducers = (state = initState, action)=>{
         case 'CREATE_NOTE':{
             console.log("Successfully Created!");
             return{
-                state
+                ...state
+            }
+        }
+        case 'CREATE_NOTE_FAILED':{
+            console.log("Note creation failed!");
+            return{
+                ...state
             }
         }
         default:{

@@ -12,10 +12,21 @@ const initState = {
 const todoReducers = (state = initState, action)=>{
     switch(action.type){
         case 'CREATE_TODO':{
-            console.log(action.todo)
+            console.log("Todo created successfully!");
+            return state;
+        }
+        case 'CREATE_TODO_FAIL':{
+            console.log("Todo creation unsuccessful!");
+            return state;
+        }
+        case 'TODO_DONE':{
+            console.log('todo done!')
+            return state;
+        }
+        default:{
+            return state;
         }
     }
-    return state;
 }
 
 export default todoReducers;

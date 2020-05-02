@@ -11,7 +11,23 @@ const initState = {
 }
 
 const reminderReducers = (state = initState, action)=>{
-    return state;
+    switch(action.type){
+        case 'CREATE_REMINDER':{
+            console.log('Reminder Created!');
+            return state;
+        }
+        case 'CREATE_REMINDER_FAIL':{
+            console.log('Reminder Creation failed!');
+            return state;
+        }
+        case 'REMIND_SUCCEDED':{
+            console.log('remind successful!');
+            return state;
+        }
+        default:{
+            return state;
+        }
+    }
 }
 
 export default reminderReducers;

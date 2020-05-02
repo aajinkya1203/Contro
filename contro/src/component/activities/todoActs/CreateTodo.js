@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ActiveTodo from './ActiveTodo';
 import { connect } from 'react-redux';
 import { todoActions } from '../../../actions/todoActions'
+import { withFirebase } from 'react-redux-firebase'
 
 class CreateTodo extends Component {
     state={
@@ -16,7 +17,7 @@ class CreateTodo extends Component {
     }
     handleSubmit=(e)=>{
         e.preventDefault();
-        this.props.createTodo(this.state);
+        this.props.createTodo(this.state,this.props.firebase);
         this.setState({
             task:'',
         })
@@ -32,7 +33,7 @@ class CreateTodo extends Component {
                         </div>
                     </form>
                     <br />
-                    <ActiveTodo todos={this.props.todos} todoComplete= { this.props.todoComplete }/>
+                    <ActiveTodo todos={this.props.todos}/>
             </div>
         )
     }
@@ -40,8 +41,8 @@ class CreateTodo extends Component {
 
 const mapDispatchToProps =(dispatch)=>{
     return{
-        createTodo:(todo)=>dispatch(todoActions(todo))
+        createTodo:(todo,fb)=>dispatch(todoActions(todo,fb))
     }
 }
 
-export default connect(null,mapDispatchToProps)(CreateTodo)
+export default withFirebase(connect(null,mapDispatchToProps)(CreateTodo))

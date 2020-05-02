@@ -1,5 +1,6 @@
 import React from 'react'
 import todoCheck from '../../../images/additional/todoCheck.png';
+import moment from 'moment'
 
 const ViewTodo=(props)=> {
     const { doneTodo } = props;
@@ -11,7 +12,7 @@ const ViewTodo=(props)=> {
                         <img src={ todoCheck } alt="todoCheck" className="todoCheck"/>
                         <h4 className="card-title">Task: { todo.task }</h4>
                     </div>
-                    <div className="card-action lighten-4 black-text">COMPLETED ON: 8:03PM</div>
+                    <div className="card-action lighten-4 black-text">COMPLETED ON: { moment(todo.completedAt.toDate()).calendar() }</div>
                 </div>
             )
         })

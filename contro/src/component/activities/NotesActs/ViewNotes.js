@@ -1,8 +1,10 @@
 import React from 'react'
 import notepad from '../../../images/additional/notepad.png';
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 const ViewNotes=(props)=> {
+    console.log(props)
     const { notes } = props;
     const todoList = notes.length ? (
         notes.map(todo=>{
@@ -14,7 +16,7 @@ const ViewNotes=(props)=> {
                             <h4 className="card-title">{ todo.title }</h4>
                             <p>{ todo.content }</p>
                         </div>
-                        <div className="card-action lighten-4 black-text">NOTED ON: 8:03PM</div>
+                        <div className="card-action lighten-4 black-text">NOTED ON: { moment(todo.createdAt.toDate()).calendar() }</div>
                     </div>
                 </Link>
             )

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ViewTodo from './todoActs/ViewTodo';
 import CreateTodo from './todoActs/CreateTodo';
 import { connect } from 'react-redux'
+import { compose } from 'redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 class Todos extends Component {
     state = {
@@ -49,7 +51,11 @@ class Todos extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <CreateTodo todos={todos}/>
+                    {
+                        isLoaded(this.props.todos) ?
+                        <CreateTodo todos={todos}/> :
+                        null
+                    }
                 </div>
             )
         }else{
@@ -64,7 +70,11 @@ class Todos extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <ViewTodo doneTodo={doneTodo}/>
+                    {
+                        isLoaded(this.props.todos) ?
+                        <ViewTodo doneTodo={doneTodo}/>:
+                        null
+                    }
                 </div>
             )
         }
@@ -73,10 +83,34 @@ class Todos extends Component {
 }
 
 const mapStateToProps=(state)=>{
+    console.log(state);
     return{
-        todos:state.todo.todos,
-        doneTodo:state.todo.doneTodo
+        todos:state.firestore.ordered.todos,
+        doneTodo:state.firestore.ordered.doneTodo,
+        auth:state.firebase.auth
     }
+    
+    
 }
 
-export default connect(mapStateToProps)(Todos)
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect((props)=>[
+        {
+            collection:'allTodo',
+            doc:`${props.auth.uid}`,
+            subcollections:[
+                {collection:'todos'}
+            ],
+            storeAs:'todos'
+        },
+        {
+            collection:'allTodo',
+            doc:`${props.auth.uid}`,
+            subcollections:[
+                {collection:'doneTodo'}
+            ],
+            storeAs:'doneTodo'
+        }
+    ])
+    )(Todos)

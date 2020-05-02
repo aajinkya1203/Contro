@@ -1,8 +1,8 @@
 import React from 'react'
 import reminderCheck from '../../../images/additional/reminderCheck.png';
 
-const ViewTodo=(props)=> {
-    const { doneReminders } = props.doneReminders;
+const ViewReminder=(props)=> {
+    const { doneReminders } = props;
     doneReminders.sort(props.compare);
     const reminderList = doneReminders.length ? (
         doneReminders.map(todo=>{
@@ -33,4 +33,4 @@ const ViewTodo=(props)=> {
     )
 }
 
-export default ViewTodo
+export default ViewReminder

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import toaster from "toasted-notes";
-import "toasted-notes/src/styles.css";
 import Navbar from '../auth/Navbar';
 import { Link } from 'react-router-dom';
 import CreateReminder from './reminderActs/CreateReminder';
 import ViewReminder from './reminderActs/ViewReminder';
+import { connect } from 'react-redux'
+import { remindPerson } from '../../actions/reminderActions';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase'
+
 class Reminders extends Component {
     state={
         decide:"create"
     }
     componentDidMount(){
-        setInterval(this.remindMe,2000);
+        // setInterval(this.remindMe,2000);
     }
     handleDecide=(dec)=>{
         this.setState({
@@ -39,34 +42,39 @@ class Reminders extends Component {
     }
     doneReminder=()=>{
         console.log(this.state);
-        let reminderToBeCompleted = this.state.reminders[0];
-        let reminderID = reminderToBeCompleted.id;
-        let remainingReminder = this.state.reminders.filter(reminder=>{
-            return reminder.id!==reminderID
-        })
-        remainingReminder = remainingReminder.sort(this.compare);
-        let doneReminders = [...this.state.doneReminders, reminderToBeCompleted];
-        doneReminders = doneReminders.sort(this.compare);
-        this.setState({
-            reminders:remainingReminder,
-            doneReminders
-        })
-        return reminderToBeCompleted.task;
+        var { reminders } = this.props
+        reminders = reminders.sort(this.compare);
+        let reminderToBeCompleted = reminders[0];
+        // let reminderID = reminderToBeCompleted.id;
+        // let remainingReminder = reminders.filter(reminder=>{
+        //     return reminder.id!==reminderID
+        // })
+        // remainingReminder = remainingReminder.sort(this.compare);
+        // let doneReminders = [...this.state.doneReminders, reminderToBeCompleted];
+        // doneReminders = doneReminders.sort(this.compare);
+        // this.setState({
+        //     reminders:remainingReminder,
+        //     doneReminders
+        // })
+        this.props.remindPerson(reminderToBeCompleted);
+
     }
     remindMe=()=>{
-        if(this.state.reminders.length===0){
+        const { reminders } = this.props
+        reminders.sort(this.compare);
+        if(reminders.length===0){
             return null;
         }
         let a = new Date();
         a = ("0"+a.getHours()).slice(-2)+":"+("0"+a.getMinutes()).slice(-2);
         console.log(a);
-        if(this.state.reminders[0].remindAt.toString()<=a){
-            let task = this.doneReminder();
-            toaster.notify("Reminder: "+task);
+        if(reminders[0].remindAt.toString()<=a){
+            this.doneReminder();
         }
     }
 
     render() {
+        const { reminders, doneReminders } = this.props;
         if(this.state.decide==="create"){
             return (
                 <div>
@@ -79,7 +87,7 @@ class Reminders extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <CreateReminder compare={this.compare} reminders={this.state} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
+                    <CreateReminder compare={this.compare} reminders={reminders} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
                 </div>
             )
         }else{
@@ -94,7 +102,7 @@ class Reminders extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <ViewReminder compare={this.compare} doneReminders={this.state}/>
+                    <ViewReminder compare={this.compare} doneReminders={doneReminders}/>
                 </div>
             )
         }
@@ -102,7 +110,24 @@ class Reminders extends Component {
         
     }
 }
-// var foo = new Reminders;
-// setTimeout(foo.remindMe,2000);
 
-export default Reminders
+const mapStateToProps=(state)=>{
+    return{
+        reminders:state.reminder.reminders,
+        doneReminders:state.reminder.doneReminders
+    }
+}
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        remindPerson: (reminderObj)=>dispatch(remindPerson(reminderObj))
+    }
+}
+
+export default compose(
+    connect(mapStateToProps,mapDispatchToProps),
+    // firestoreConnect((props)=>[
+    //     {
+    //         collection:''
+    //     }
+    // ])
+    )(Reminders)

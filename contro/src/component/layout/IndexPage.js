@@ -3,8 +3,12 @@ import coverBG from '../../images/cover.svg';
 import { Link } from 'react-router-dom';
 import Features from './Features';
 import followFinal from '../../images/followFinal.svg';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const IndexPage=()=> {
+const IndexPage=(props)=> {
+    const { authID } = props;
+    if(authID) return <Redirect to='/home'/>
     return (
         <div className="container">
             <div className="container intro">
@@ -47,5 +51,9 @@ const IndexPage=()=> {
         </div>
     )
 }
-
-export default IndexPage
+const mapStateToProps=(state)=>{
+    return{
+        authID:state.firebase.auth.uid
+    }
+}
+export default connect(mapStateToProps)(IndexPage)

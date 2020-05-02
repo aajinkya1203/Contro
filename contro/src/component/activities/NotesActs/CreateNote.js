@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { notesActions } from '../../../actions/notesActions';
+import { withFirebase } from 'react-redux-firebase';
 
 class CreateNote extends Component {
     state={
@@ -15,7 +16,7 @@ class CreateNote extends Component {
     }
     handleSubmit=(e)=>{
         e.preventDefault();
-        this.props.createNote(this.state);
+        this.props.createNote(this.state,this.props.firebase);
         this.setState({
             title:'',
             content:''
@@ -46,8 +47,8 @@ class CreateNote extends Component {
 }
 const mapDispatchToProps=(dispatch)=>{
     return{
-        createNote: (note)=>dispatch(notesActions(note))
+        createNote: (note,fb)=>dispatch(notesActions(note,fb))
     }
 }
 
-export default connect(null,mapDispatchToProps)(CreateNote)
+export default withFirebase(connect(null,mapDispatchToProps)(CreateNote))
