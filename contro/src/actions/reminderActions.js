@@ -21,11 +21,39 @@ export const reminderActions =(reminder,fb)=>{
     }
 }
 
-export const remindPerson = (reminder)=>{
+export const remindPerson = (reminderID,fb)=>{
     return(dispatch, getState)=>{
-        reminder.status="true";
+        const firebaseID = getState().firebase.auth.uid;
+        var task;
+        // reminder.status="true";
         //some async call to db
-        toaster.notify(reminder.task);
-        dispatch({type:'REMIND_SUCCEDED'})
+        // toaster.notify(reminderID.task);
+        fb.firestore().collection('allReminder')
+            .doc(firebaseID)
+            .collection('reminders')
+            .doc(reminderID)
+            .get().then((resp)=>{
+                task = resp.data().task;
+                return fb.firestore().collection('allReminder')
+                            .doc(firebaseID)
+                            .collection('doneReminders')
+                            .doc()
+                            .set({
+                                task:resp.data().task,
+                                status:'true',
+                                remindedOn:new Date()
+                            })
+            }).then(()=>{
+                return fb.firestore().collection('allReminder')
+                .doc(firebaseID)
+                .collection('reminders')
+                .doc(reminderID)
+                .delete()
+            }).then(()=>{
+                toaster.notify("Reminder: "+task);
+                dispatch({type:'REMIND_SUCCEDED'})
+            }).catch((err)=>{
+                dispatch({type:'REMIND_SUCCEDED_FAIL',err})
+            })
     }
 }

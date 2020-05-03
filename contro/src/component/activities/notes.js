@@ -6,6 +6,7 @@ import ViewNotes from './NotesActs/ViewNotes'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import notesBG from '../../images/DiffPageResources/notesBG.svg'
 
 class Notes extends Component {
     state ={
@@ -22,14 +23,7 @@ class Notes extends Component {
             })
         }
     }
-    // addNotes=(note)=>{
-        // note.id=Math.random();
-        // let tempNotes = [...this.state.notes, note];
-        // this.setState({
-        //     notes:tempNotes
-        // })
-        // this.props.createNote(note);
-    // }
+
     render() {
         console.log(this.props)
         const { notes } = this.props;
@@ -37,6 +31,7 @@ class Notes extends Component {
             return (
                 <div>
                     <Navbar />
+                    <img src={ notesBG } alt="notesBG" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">NOTES     | </h4>
                         <ul className="todoActs">
@@ -52,6 +47,7 @@ class Notes extends Component {
             return (
                 <div>
                     <Navbar />
+                    <img src={ notesBG } alt="notesBG" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">NOTES     | </h4>
                         <ul className="todoActs">

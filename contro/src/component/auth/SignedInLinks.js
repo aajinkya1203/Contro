@@ -5,13 +5,19 @@ import { connect } from 'react-redux';
 import { withFirebase } from 'react-redux-firebase'
 
 const SignedInLinks=(props)=> {
+    const { profile } = props;
     return (
         <ul className="right signedOut">
             <li><Link to='/about'>ABOUT US</Link></li>
             <li><Link to='/' onClick={()=>props.signOUT(props.firebase)}>LOG OUT</Link></li>
-            <li><Link to='/profile' className="btn btn-floating white black-text">AS</Link></li>
+            <li><Link to='/profile' className="btn btn-floating white black-text">{profile.initials}</Link></li>
         </ul>
     )
+}
+const mapStateToProps = (state)=>{
+    return{
+        profile:state.firebase.profile
+    }
 }
 
 const mapDispatchToProps = (dispatch)=>{
@@ -19,4 +25,4 @@ const mapDispatchToProps = (dispatch)=>{
         signOUT:(fb)=>dispatch(signOUT(fb))
     }
 }
-export default withFirebase(connect(null,mapDispatchToProps)(SignedInLinks))
+export default withFirebase(connect(mapStateToProps,mapDispatchToProps)(SignedInLinks))

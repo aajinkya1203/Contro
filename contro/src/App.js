@@ -8,6 +8,7 @@ import Todos from './component/activities/Todos';
 import Reminders from './component/activities/Reminders';
 import Notes from './component/activities/Notes';
 import NoteDetail from './component/activities/NotesActs/NoteDetail';
+import about from './component/layout/about';
 
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
           <Route path='/signin' component={ signin } />
           <Route path='/signup' component={ signup } />
           <Route exact path='/home' component={ dashboard } />
-          <Route path='/about' component={ dashboard } />
+          <Route path='/about' component={ about } />
           <Route path='/profile' component={ dashboard } />
           <Route path='/home/Todos' component={ Todos } />
           <Route path='/home/Reminders' component={ Reminders } />

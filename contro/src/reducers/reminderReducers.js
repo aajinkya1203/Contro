@@ -24,6 +24,10 @@ const reminderReducers = (state = initState, action)=>{
             console.log('remind successful!');
             return state;
         }
+        case 'REMIND_SUCCEDED_FAIL':{
+            console.log('reminder task fail! Error: ',action.err);
+            return state;
+        }
         default:{
             return state;
         }

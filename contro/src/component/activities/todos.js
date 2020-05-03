@@ -6,6 +6,7 @@ import CreateTodo from './todoActs/CreateTodo';
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import todoBG from '../../images/DiffPageResources/todo.svg';
 
 class Todos extends Component {
     state = {
@@ -22,27 +23,13 @@ class Todos extends Component {
             })
         }
     }
-    // todoComplete=(todoID)=>{
-    //     const { todos, doneTodo } = this.props;
-    //     let tempTodo = todos.filter(todo=>{
-    //         return todo.id!==todoID;
-    //     });
-    //     let todoToDelete = todos.find(todo=>{
-    //         return todo.id===todoID;
-    //     });
-    //     // let compTodo = [...doneTodo,todoToDelete];
-    //     this.setState({
-    //         todos:tempTodo,
-    //         doneTodo:compTodo
-    //     })
-    // }
-
     render() {
         const { todos, doneTodo } = this.props;
         if(this.state.decide==="create"){
             return (
                 <div>
                     <Navbar />
+                    <img src={ todoBG } alt="todoBG" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">TODO     | </h4>
                         <ul className="todoActs">
@@ -62,6 +49,7 @@ class Todos extends Component {
             return (
                 <div>
                     <Navbar />
+                    <img src={ todoBG } alt="todoBG" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">TODO     | </h4>
                         <ul className="todoActs">

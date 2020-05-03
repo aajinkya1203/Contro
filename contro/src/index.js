@@ -10,7 +10,8 @@ import thunk from 'redux-thunk'
 import { ReactReduxFirebaseProvider, isLoaded } from 'react-redux-firebase';
 import { reduxFirestore, createFirestoreInstance } from 'redux-firestore'
 import firebase from 'firebase/app';
-import fbConfig from './config/fbConfig'
+import fbConfig from './config/fbConfig';
+import panda from './images/panda.gif'
 
 
 const rrfConfig={
@@ -40,7 +41,9 @@ function AuthIsReady({ children }){
     if(isLoaded(auth)){
       return children
     }else{
-      return <div className="center loading">LOADING</div>
+      return <div className="center loading">
+        <img src={ panda } alt="Loading..." />
+      </div>
     }
 }
 

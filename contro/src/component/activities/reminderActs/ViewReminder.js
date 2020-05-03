@@ -1,9 +1,11 @@
 import React from 'react'
 import reminderCheck from '../../../images/additional/reminderCheck.png';
+import moment from 'moment';
 
 const ViewReminder=(props)=> {
     const { doneReminders } = props;
-    doneReminders.sort(props.compare);
+    [...doneReminders].sort(props.comparison);
+    console.log([...doneReminders].sort(props.comparison));
     const reminderList = doneReminders.length ? (
         doneReminders.map(todo=>{
             return(
@@ -12,7 +14,7 @@ const ViewReminder=(props)=> {
                         <img src={ reminderCheck } alt="reminderCheck" className="todoCheck"/>
                         <h4 className="card-title">Task: { todo.task }</h4>
                     </div>
-                    <div className="card-action lighten-4 black-text">REMINDER ON: { todo.remindAt }</div>
+                    <div className="card-action lighten-4 black-text">REMINDER ON: { moment(todo.remindedOn.toDate()).fromNow() }</div>
                 </div>
             )
         })

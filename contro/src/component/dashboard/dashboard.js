@@ -8,8 +8,7 @@ import { connect } from 'react-redux';
 
 class dashboard extends Component {
     render() {
-        const { auth } = this.props;
-        console.log(auth)
+        const { auth,profile } = this.props;
         if(!auth.uid) return <Redirect to='/'/>
         return (
             <div>
@@ -19,7 +18,7 @@ class dashboard extends Component {
                     <img src = { peep } alt="Guy Peeping" className="peep" />
                     <div id="tabs">
                         <h3 className="instruction">
-                            Hello Aajinkya, <br/>
+                            Hello { profile.authorFirstName }, <br/>
                             What would you like to do?
                         </h3>
                         <ActivitySummary />
@@ -32,7 +31,8 @@ class dashboard extends Component {
 
 const mapStateToProps=(state)=>{
     return{
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 

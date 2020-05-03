@@ -6,14 +6,15 @@ import ViewReminder from './reminderActs/ViewReminder';
 import { connect } from 'react-redux'
 import { remindPerson } from '../../actions/reminderActions';
 import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase'
+import reminderPageCover from '../../images/DiffPageResources/reminderPageCover.svg';
+import { firestoreConnect, isLoaded, withFirebase } from 'react-redux-firebase'
 
 class Reminders extends Component {
     state={
         decide:"create"
     }
     componentDidMount(){
-        // setInterval(this.remindMe,2000);
+        setInterval(this.remindMe,2000);
     }
     handleDecide=(dec)=>{
         this.setState({
@@ -32,7 +33,21 @@ class Reminders extends Component {
         const bandA = a.remindAt;
         const bandB = b.remindAt;
       
-        let comparison = 0;
+        let comparison;
+        if (bandA > bandB) {
+          comparison = 1;
+        } else if (bandA < bandB) {
+          comparison = -1;
+        }
+        return comparison;
+    }
+    comparison(a, b){
+        var bandA = a.remindedOn.toDate();
+        bandA = ("0"+bandA.getHours()).slice(-2)+":"+("0"+bandA.getMinutes()).slice(-2);
+        var bandB = b.remindedOn.toDate();
+        bandB = ("0"+bandB.getHours()).slice(-2)+":"+("0"+bandB.getMinutes()).slice(-2);
+        
+        let comparison;
         if (bandA > bandB) {
           comparison = 1;
         } else if (bandA < bandB) {
@@ -42,26 +57,15 @@ class Reminders extends Component {
     }
     doneReminder=()=>{
         console.log(this.state);
-        var { reminders } = this.props
-        reminders = reminders.sort(this.compare);
+        var { reminders } = this.props;
+        [...reminders].sort(this.compare);
         let reminderToBeCompleted = reminders[0];
-        // let reminderID = reminderToBeCompleted.id;
-        // let remainingReminder = reminders.filter(reminder=>{
-        //     return reminder.id!==reminderID
-        // })
-        // remainingReminder = remainingReminder.sort(this.compare);
-        // let doneReminders = [...this.state.doneReminders, reminderToBeCompleted];
-        // doneReminders = doneReminders.sort(this.compare);
-        // this.setState({
-        //     reminders:remainingReminder,
-        //     doneReminders
-        // })
-        this.props.remindPerson(reminderToBeCompleted);
+        this.props.remindPerson(reminderToBeCompleted.id,this.props.firebase);
 
     }
     remindMe=()=>{
-        const { reminders } = this.props
-        reminders.sort(this.compare);
+        const { reminders } = this.props;
+        [...reminders].sort(this.compare);
         if(reminders.length===0){
             return null;
         }
@@ -79,6 +83,7 @@ class Reminders extends Component {
             return (
                 <div>
                     <Navbar />
+                    <img src = {reminderPageCover} alt="ReminderPageCover" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">REMINDERS     | </h4>
                         <ul className="todoActs">
@@ -87,13 +92,18 @@ class Reminders extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <CreateReminder compare={this.compare} reminders={reminders} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
+                    {
+                        isLoaded(reminders)?
+                        <CreateReminder compare={this.compare} reminders={reminders} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
+                        : null
+                    }
                 </div>
             )
         }else{
             return (
                 <div>
                     <Navbar />
+                    <img src = {reminderPageCover} alt="ReminderPageCover" className="scrollFace reminderFace"/>
                     <div className="container todoContainer">
                         <h4 className="white-text text-darken-3">REMINDERS     | </h4>
                         <ul className="todoActs">
@@ -102,7 +112,11 @@ class Reminders extends Component {
                         </ul>
                     </div>
                     <hr className="seperation" />
-                    <ViewReminder compare={this.compare} doneReminders={doneReminders}/>
+                    {
+                        isLoaded(doneReminders)?
+                        <ViewReminder comparison={this.comparison} doneReminders={doneReminders}/>
+                        : null
+                    }
                 </div>
             )
         }
@@ -111,23 +125,40 @@ class Reminders extends Component {
     }
 }
 
-const mapStateToProps=(state)=>{
+const mapStateToProps=(state,ownProps)=>{
+    console.log(ownProps);
     return{
-        reminders:state.reminder.reminders,
-        doneReminders:state.reminder.doneReminders
+        // reminders:state.reminder.reminders,
+        // doneReminders:state.reminder.doneReminders,
+        reminders:state.firestore.ordered.reminders,
+        doneReminders:state.firestore.ordered.doneReminders,
+        auth:state.firebase.auth
     }
 }
 const mapDispatchToProps=(dispatch)=>{
     return{
-        remindPerson: (reminderObj)=>dispatch(remindPerson(reminderObj))
+        remindPerson: (reminderObj,fb)=>dispatch(remindPerson(reminderObj,fb))
     }
 }
 
-export default compose(
+export default withFirebase(compose(
     connect(mapStateToProps,mapDispatchToProps),
-    // firestoreConnect((props)=>[
-    //     {
-    //         collection:''
-    //     }
-    // ])
-    )(Reminders)
+    firestoreConnect((props)=>[
+        {
+            collection:'allReminder',
+            doc:`${props.auth.uid}`,
+            subcollections:[
+                { collection:'reminders' }
+            ],
+            storeAs:'reminders'
+        },
+        {
+            collection:'allReminder',
+            doc:`${props.auth.uid}`,
+            subcollections:[
+                { collection:'doneReminders' }
+            ],
+            storeAs:'doneReminders'
+        }
+    ])
+    )(Reminders))

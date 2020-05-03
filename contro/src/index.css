@@ -519,3 +519,65 @@ footer .copyright{
 .input-field textarea{
   color: #fff;
 }
+
+/*  about page styling  */
+.aboutCard{
+  cursor: default;
+  height: auto;
+  width: 800px;
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-template-rows: repeat(3,1fr);
+  background-color: transparent;
+  border-radius: 24px;
+  border: 2px solid #45a29e;
+}
+.aboutCard .card-content{
+  grid-column: 1 /9;
+  grid-row: 1 / 3;
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-template-rows: repeat(2,1fr);
+}
+.aboutCard .card-content img{
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  height: 100%;
+  width: 100%;
+}
+.aboutCard .card-content h4{
+  grid-column: 4 / 8;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+.aboutCard .card-action{
+  grid-column: 1 / 9;
+  grid-row: 3 / 4;
+  text-align: center;
+  align-self: center;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.aboutCard .card-action a i{
+  color: #fff;
+  font-size: 2em;
+  margin: 0 20px;
+}
+.scrollFace{
+  position: fixed;
+  top: 0px;
+  right: 0;
+  height: 100%;
+  width: auto;
+  opacity: 0.8;
+  z-index: -5;
+}
+.reminderFace{
+  opacity: 0.5;
+}
+.loading{
+  background-color: #11ab78;
+  height: 100%;
+  padding: 12px 0;
+
+}

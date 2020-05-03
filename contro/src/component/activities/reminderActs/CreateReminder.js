@@ -37,6 +37,9 @@ class CreateReminder extends Component {
                             {/* <label htmlFor="remindAt">Time:</label> */}
                             <input id="remindAt" type="time" onChange={this.handleChange} className="white-text" required />
                         </div>
+                        <div className="input-field">
+                            <button className="btn z-depth-0 loginBtn">CREATE REMINDER!</button>
+                        </div>
                     </form>
                     <br />
                     <ActiveReminder reminders={this.props.reminders} compare={this.props.compare}/>

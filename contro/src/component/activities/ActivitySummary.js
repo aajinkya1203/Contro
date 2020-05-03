@@ -17,7 +17,6 @@ class ActivitySummary extends Component {
             <ul id="featuresInContro">
                 {
                     acts && acts.map(act=>{
-                        console.log(`./${ act.path }`);
                         return(
                             <li key={act.id}>
                                 <Link to={ `./home/${ act.path }` }>
