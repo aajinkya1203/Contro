@@ -6,8 +6,9 @@ import navbarBG from '../../images/additional/navbarBG.svg'
 import { connect } from 'react-redux';
 
 const Navbar=(props)=> {
-    const links = props.auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
-
+    const { stopInterval } = props;
+    const links = props.auth.uid ? <SignedInLinks stopInterval={ stopInterval}/>
+     : <SignedOutLinks />;
     return (
         <nav className="nav-wrapper RootNavbar">
             <img src= { navbarBG } alt="Cover for Navbar" className="navbarBG"/>

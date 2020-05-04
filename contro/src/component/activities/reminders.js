@@ -11,22 +11,19 @@ import { firestoreConnect, isLoaded, withFirebase } from 'react-redux-firebase'
 
 class Reminders extends Component {
     state={
-        decide:"create"
+        decide:"create",
     }
+    intervalID = 0;
     componentDidMount(){
-        setInterval(this.remindMe,2000);
+        this.intervalID = setInterval(this.remindMe,2000);
     }
+    componentWillUnmount(){
+            clearInterval(this.intervalID)
+    }
+
     handleDecide=(dec)=>{
         this.setState({
             decide: dec
-        })
-    }
-    addReminder=(reminder)=>{
-        reminder.id=Math.random();
-        let tempReminder = [...this.state.reminders,reminder];
-        tempReminder = tempReminder.sort(this.compare);
-        this.setState({
-            reminders:tempReminder
         })
     }
     compare(a, b) {
@@ -61,17 +58,15 @@ class Reminders extends Component {
         [...reminders].sort(this.compare);
         let reminderToBeCompleted = reminders[0];
         this.props.remindPerson(reminderToBeCompleted.id,this.props.firebase);
-
     }
     remindMe=()=>{
         const { reminders } = this.props;
         [...reminders].sort(this.compare);
         if(reminders.length===0){
-            return null;
+            return null
         }
         let a = new Date();
         a = ("0"+a.getHours()).slice(-2)+":"+("0"+a.getMinutes()).slice(-2);
-        console.log(a);
         if(reminders[0].remindAt.toString()<=a){
             this.doneReminder();
         }
@@ -79,6 +74,7 @@ class Reminders extends Component {
 
     render() {
         const { reminders, doneReminders } = this.props;
+
         if(this.state.decide==="create"){
             return (
                 <div>
@@ -94,7 +90,7 @@ class Reminders extends Component {
                     <hr className="seperation" />
                     {
                         isLoaded(reminders)?
-                        <CreateReminder compare={this.compare} reminders={reminders} remindMe={ this.remindMe } addReminder={ this.addReminder }/>
+                        <CreateReminder compare={this.compare} reminders={reminders} remindMe={ this.remindMe } />
                         : null
                     }
                 </div>
@@ -125,11 +121,8 @@ class Reminders extends Component {
     }
 }
 
-const mapStateToProps=(state,ownProps)=>{
-    console.log(ownProps);
+const mapStateToProps=(state)=>{
     return{
-        // reminders:state.reminder.reminders,
-        // doneReminders:state.reminder.doneReminders,
         reminders:state.firestore.ordered.reminders,
         doneReminders:state.firestore.ordered.doneReminders,
         auth:state.firebase.auth
@@ -148,7 +141,7 @@ export default withFirebase(compose(
             collection:'allReminder',
             doc:`${props.auth.uid}`,
             subcollections:[
-                { collection:'reminders' }
+                { collection:'reminders',orderBy:['remindAt','desc']  }
             ],
             storeAs:'reminders'
         },
@@ -156,7 +149,7 @@ export default withFirebase(compose(
             collection:'allReminder',
             doc:`${props.auth.uid}`,
             subcollections:[
-                { collection:'doneReminders' }
+                { collection:'doneReminders',orderBy:['remindedOn','desc'],limit:8 }
             ],
             storeAs:'doneReminders'
         }

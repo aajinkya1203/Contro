@@ -22,7 +22,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
     return{
-        signOUT:(fb)=>dispatch(signOUT(fb))
+        signOUT:(fb,id)=>dispatch(signOUT(fb,id))
     }
 }
 export default withFirebase(connect(mapStateToProps,mapDispatchToProps)(SignedInLinks))

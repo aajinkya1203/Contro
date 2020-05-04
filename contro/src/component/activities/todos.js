@@ -88,7 +88,7 @@ export default compose(
             collection:'allTodo',
             doc:`${props.auth.uid}`,
             subcollections:[
-                {collection:'todos'}
+                {collection:'todos',orderBy:['createdAt','desc']}
             ],
             storeAs:'todos'
         },
@@ -96,7 +96,7 @@ export default compose(
             collection:'allTodo',
             doc:`${props.auth.uid}`,
             subcollections:[
-                {collection:'doneTodo'}
+                {collection:'doneTodo',orderBy:['completedAt','desc'] }
             ],
             storeAs:'doneTodo'
         }

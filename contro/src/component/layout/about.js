@@ -27,7 +27,7 @@ class about extends Component{
                                 return(
                                     <li key={ contri.id } className="card aboutCard z-depth-0">
                                         <div className="card-content">
-                                            <img src = { require(`../../images/DiffPageResources/${ contri.src }`) }/>
+                                            <img src = { require(`../../images/DiffPageResources/${ contri.src }`) } alt="cover"/>
                                             <h4>{ contri.person }</h4>
                                         </div>
                                         <p className="card-action lighten-4">
