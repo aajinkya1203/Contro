@@ -50,7 +50,7 @@ This project is primarily developed by a bunch of engineering students at NMIMS 
 2. [Afreen Siganporia](https://github.com/afreenss)
 3. [Dhyey Sanghavi](https://github.com/dhyeysanghavi)
 
->Look at the entire list of [contributors]() to see who all have helped with the project.
+>Look at the entire list of [contributors](https://github.com/aajinkya1203/Contro/graphs/contributors) to see who all have helped with the project.
 
 ## Contributing
 Please read the [CONTRIBUTING.md](https://github.com/aajinkya1203/Controrary/blob/master/CONTRIBUTING.md) file for more details on how to contribute.
